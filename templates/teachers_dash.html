@@ -1,0 +1,25 @@
+
+
+{% include 'teacher_navbar.html' %}
+<main class="container">
+       
+    <div class="bg-light p-5 rounded">
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        You're Subject: 
+                        {% for query in queryset %}
+                        {{query}}
+                        {% endfor %}
+                        
+                    </div>
+                </div>
+          
+            </div>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

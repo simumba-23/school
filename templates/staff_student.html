@@ -1,0 +1,49 @@
+{% load crispy_forms_tags %}
+
+{% include 'principal_navbar.html' %}
+<main class="container">
+       
+    <div class="bg-light p-5 rounded">
+      <div class="row  mt-4">
+       
+        <div class="col-6">
+          
+
+            <table class="table">
+                <h6 class="text-center fw-light">STUDENT</h6>
+            <tr>
+                <th>Total</th>
+                <th>Male</th>
+                <th>Female</th>
+                </tr>
+            <tr>
+                <td>{{queryset}}</td>
+                <td>{{query}}</td>
+                <td>{{querys}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-6">
+        
+
+            <table class="table">
+                <h6 class="text-center fw-light">STAFF</h6>
+            <tr>
+                <th>Total</th>
+                <th>Male</th>
+                <th>Female</th>
+                </tr>
+            <tr>
+                <td>{{staff_q1}}</td>
+                <td>{{staff_q2}}</td>
+                <td>{{staff_q3}}</td>
+                </tr>
+            </table>
+        </div>
+    
+        </div>
+       </div>
+</main>
+
+</body>
+</html>

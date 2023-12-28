@@ -1,0 +1,79 @@
+{% load crispy_forms_tags %}
+
+{% load static %}
+<!Doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>SECONDARY</title>
+
+   
+  
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+<link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    
+    <!-- Custom styles for this template -->
+  </head>
+  <body>
+{% include 'academic_navbar.html' %}
+<main class="container">
+    <div class="bg-light p-5 rounded">
+      <div class="row  mt-4">
+        <div class="col-4 ">
+  
+          <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form-control p-5">
+              {{form|crispy}}
+              <input class="btn btn-success w-100" type="submit" value="submit">
+
+            </div>
+           
+          </form>
+        </div>
+       
+        <div class="col-8">
+          <table class="table">
+            <tr>
+              <th>First Name</th>
+              <th>Middle Name</th>
+              <th>Last Name</th>
+              
+              <th>Sex</th>
+              <th>Phone Number</th>
+            </tr>
+            {% for instance in queryset %}
+            <tr>
+              <td>{{instance.first_Name}}</td>
+              <td>{{instance.middle_Name}}</td>
+              <td>{{instance.last_Name}}</td>
+              <td>{{instance.sex}}</td>
+              <td>{{instance.phone_number}}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+       
+      </div>
+       </div>
+</main>
+
+</body>
+</html>

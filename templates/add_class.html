@@ -1,0 +1,45 @@
+{% load crispy_forms_tags %}
+
+{% include 'academic_navbar.html' %}
+<main class="container ">
+    <div class="bg-light p-5 mt-4 rounded">
+      <div class="row  mt-4">
+        <div class="col-4 ">
+  
+          <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form-control p-4">
+              {{form|crispy}}
+              <input class="btn btn-success w-100" type="submit" value="submit">
+
+            </div>
+          
+          </form>
+        </div>
+      <div class="col-8">
+        <table class="table">
+          <tr>
+            <th>Name</th>
+            <th>Stream</th>
+            <th>Subject</th>
+            <th>Teachedby</th>
+          </tr>
+          {% for query in queries %}
+          <tr>
+            <td>{{query.name}}</td> 
+            <td>{{query.stream}}</td>
+            <td>{{query.subject.name}}</td>
+            <td>Mwl.{{query.user.first_name}}</td>
+
+          </tr>
+
+          {% endfor %}
+        </table>
+      </div>
+    
+      </div>
+      </div>
+</main>
+
+</body>
+</html>

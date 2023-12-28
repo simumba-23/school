@@ -1,0 +1,51 @@
+{% load crispy_forms_tags %}
+
+{% include 'principal_navbar.html' %}
+<main class="container">
+       
+    <div class="bg-light p-5 rounded">
+      <div class="row  mt-4">
+        <div class="col-4 ">
+          <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form-control p-5">
+              {{form|crispy}}
+              <input class="btn btn-success w-100" type="submit" value="submit">
+
+            </div>
+           
+          </form>
+        </div>
+       
+        <div class="col-8">
+          
+
+            <table class="table">
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+                <th>Email Address</th>
+                <th>Role</th>
+                <th>Sex</th>
+
+              </tr>
+              {% for instance in queryset %}
+              <tr>
+                <td>{{instance.first_name}}</td>
+                <td>{{instance.last_name}}</td>
+                <td>{{instance.username}}</td>
+                <td>{{instance.email}}</td>
+                <td>{{instance.role}}</td>
+                <td>{{instance.sex}}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+         
+        </div>
+       </div>
+</main>
+
+</body>
+</html>

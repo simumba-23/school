@@ -1,0 +1,44 @@
+{% load crispy_forms_tags %}
+
+{% include 'academic_navbar.html' %}
+<main class="container">
+    <div class="bg-light p-5 rounded">
+      <div class="row mt-4">
+        <div class="col-4">
+  
+          <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form-control p-5">
+              <h3 class="text-center">Add subject</h3>
+              {{form|crispy}}
+              <input class="btn btn-success w-100" type="submit" value="submit">
+
+            </div>
+           
+          </form>
+        </div>
+        <div class="col-8">
+          <table class=" table">
+            <tr class="lead ">
+              <th class="">Name</th>
+              <th class="">Code</th>
+            </tr>
+          {% for instance in query %}
+            <tr>
+              <td>{{instance.name}}</td>
+              <td>{{instance.code}}</td>
+
+            </tr>
+            {% endfor %}
+         
+          </table>
+          </div>
+        </div>
+       
+    
+      </div>
+       </div>
+</main>
+
+</body>
+</html>

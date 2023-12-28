@@ -1,0 +1,71 @@
+{% load crispy_forms_tags %}
+
+{% load static %}
+<!Doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>SECONDARY</title>
+
+   
+  
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+<link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+   <link rel="stylesheet" href="{% static 'styling/style.css' %}">
+    
+    <!-- Custom styles for this template -->
+  </head>
+  <body>
+    
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-success">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">SECONDARY SCHOOL</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+  </div>
+</nav>
+
+<main class="container">
+    <div class="bg-light p-5 rounded">
+      <div class="row justify-content-center mt-5">
+        <div class="col-6 ">
+  
+          <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form-control p-5">
+              <h3 class="text-center lead">Login Form</h3>
+              {{form|crispy}}
+              <input class="btn btn-success w-100" type="submit" value="Login">
+              
+            </div>
+          
+          </form>
+        </div>
+      
+    
+      </div>
+        </div>
+       
+</main>
+
+</body>
+</html>
