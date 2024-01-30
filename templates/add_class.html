@@ -1,10 +1,10 @@
-{% load crispy_forms_tags %}
-
 {% include 'academic_navbar.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
 <main class="container ">
     <div class="bg-light p-5 mt-4 rounded">
       <div class="row  mt-4">
-        <div class="col-4 ">
+        <div class="col-5">
   
           <form action="" method="POST">
             {% csrf_token %}
@@ -16,21 +16,14 @@
           
           </form>
         </div>
-      <div class="col-8">
+      <div class="col-6">
         <table class="table">
-          <tr>
-            <th>Name</th>
-            <th>Stream</th>
-            <th>Subject</th>
-            <th>Teachedby</th>
+          <tr clss="">
+            <th class="text-center">Name</th>
           </tr>
           {% for query in queries %}
           <tr>
-            <td>{{query.name}}</td> 
-            <td>{{query.stream}}</td>
-            <td>{{query.subject.name}}</td>
-            <td>Mwl.{{query.user.first_name}}</td>
-
+            <td class="ps-5">{{query.name}}</td> 
           </tr>
 
           {% endfor %}
@@ -40,6 +33,4 @@
       </div>
       </div>
 </main>
-
-</body>
-</html>
+{% endblock %}

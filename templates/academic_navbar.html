@@ -1,32 +1,6 @@
-{% load static %}
-<!Doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <title>SECONDARY</title>
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
+{% extends 'main.html' %}
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-   <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'styling/style.css' %}">
-    <!-- Custom styles for this template -->
-  </head>
-  <body>
-
+{% block content %}
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-success">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">SECONDARY SCHOOL</a>
@@ -39,23 +13,23 @@
           <a class="nav-link active" aria-current="page" href="#">HOME</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'add_subject' %}">Define&Modify Subject </a>
+          <a class="nav-link" href="{% url 'add_subject' %}">ADD SUBJECT </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'add_class' %}">Assign Subject&Class</a>
+          <a class="nav-link" href="{% url 'add_class' %}">ADD CLASS</a>
         </li>
         
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'register_student' %}"> Students Registration</a>
+          <a class="nav-link" href="{% url 'register_student' %}"> REGISTER STUDENT</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Generate Student Report</a>
+          <a class="nav-link" href="#">GENERATE REPORT</a>
         </li> 
       </ul>
         <div class="d-flex">
 
           <a href="{% url 'logout' %}">
-            <button class="btn btn-primary" type="submit">Logout</button>
+            <button class="btn btn-success" type="submit">Logout</button>
 
           </a>
         </div>
@@ -64,3 +38,4 @@
       </div>
   </div>
 </nav>
+{% endblock %}

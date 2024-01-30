@@ -15,17 +15,16 @@ def login_view(request):
         password=request.POST['password']
         user=authenticate(username=username,password=password)
       
-        if user is not None and user.role=='Academic Teacher':
+        if user is not None and user.role=='Academic Master':
             login(request,user)
             return redirect('add_class')
         elif user is not None and user.role=='School Admin':
             login(request,user)
             return redirect('school_admin')
         elif user is not None and user.role=='School Principal':
-            print('principle')
             login(request,user)
             return redirect('school_principal')
-        elif user is not None and user.role=='teacher':
+        elif user is not None and user.role=='Teacher':
             login(request,user)
             return redirect('teacher')   
         else:
@@ -40,10 +39,10 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
-@login_required(login_url=('login'))
-
+#@login_required(login_url=('login'))
+ 
 def register_view(request):
-    queryset=User.objects.all()
+    queryset=CustomUser.objects.all()
     if request.method=="POST":
         form=UserRegisterForm(request.POST)
     
@@ -55,9 +54,7 @@ def register_view(request):
 
             get_form.save()
             return redirect('school_principal')
-
-                
-        
+                     
     context={
         'form':UserRegisterForm,
         'queryset':queryset
@@ -109,22 +106,21 @@ def student_view(request):
     }
     return render(request,'register_student.html',context)
 def admin_view(request):
-    queryset=User.objects.all()
+    queryset=CustomUser.objects.all()
     context={
         'queryset':queryset
     }
     return render(request,'admin.html',context)
 
 def subject_teacher(request):
-
     return render(request,'subject_teacher.html')
 def staff_student(request):
     queryset= Student.objects.count()
     query=Student.objects.filter(sex='Male').count()
     querys=Student.objects.filter(sex='Female').count()
-    staff_q1=User.objects.count()
-    staff_q2=User.objects.filter(sex='Male').count()
-    staff_q3=User.objects.filter(sex='Female').count()
+    staff_q1=CustomUser.objects.count()
+    staff_q2=CustomUser.objects.filter(sex='Male').count()
+    staff_q3=CustomUser.objects.filter(sex='Female').count()
     context={
         'queryset': queryset,
         'query':query,
@@ -136,7 +132,7 @@ def staff_student(request):
     return render(request,'staff_student.html',context)
 def teacher_view(request):
 
-    queryset=Class.objects.filter(user_id=request.user).values_list('subject__name','name','stream').distinct()
+    queryset=Class.objects.all()
     context={
             'queryset':queryset
 
