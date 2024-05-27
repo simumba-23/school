@@ -1,0 +1,39 @@
+{% extends 'student/index.html '%}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<main class="row">
+    <div class="bg-light mt-2  rounded">
+    <div class="row   justify-content-center p-5">
+        
+        <div class="col-6  w-74">
+        <table class="table">
+            <h4 class="text-center"> Exams Result</h4>
+        <hr>
+            <tr>
+                <th>Student</th>
+                <th>Subject</th>
+
+                <th>Marks</th>
+                <th>Grade</th>
+            
+            </tr>
+            {% for instance in  student_scores %}
+            <tr>
+                <td>{{instance.student}}</t>
+
+                <td>{{instance.subject}}</td>
+                <td>{{instance.marks}}</td>
+                <td>{{instance.grade}}</td>
+            
+            </tr>
+        <button><a href="{% url 'generate_report' %}">GET REPORT</a></button>
+
+            {% endfor %}
+        </table>
+        </div>
+    
+    </div>
+    </div>
+</main>
+{% endblock %}

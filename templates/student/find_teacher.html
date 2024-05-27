@@ -1,0 +1,36 @@
+{% extends 'student/index.html' %}
+{% block content %}
+<div class="mt-2 ms-5">
+    <div class="row justify-content-center">
+        <div class="col-9">
+<main >
+    <div class="bg-light p-5 rounded">
+        <div class="card">
+            <form method="GET" action="{% url 'find_teacher' %}">
+                <div class="input-group">
+                <input  name='query' type="text" class="form-control border-radius " placeholder="Search Teacher..."/>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
+                </div>
+            </form>
+        </div>
+        <ul >
+            {% for result in results %}
+            <h4> Teacher</h4>
+            <hr>  
+                <li class="list-group-item bg-info text-light text-center">{{ result.first_name}} {{ result.last_name}} </li>
+                <li class="list-group-item bg-info text-light text-center">{{ result.office.name}} {{ result.office.office_number}}</li>
+
+
+
+            {% empty %}
+                <li>No results found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</main>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}

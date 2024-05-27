@@ -7,6 +7,12 @@ admin.site.register(Subject)
 admin.site.register(Score)
 admin.site.register(Class)
 admin.site.register(ClassStream)
-admin.site.register(StudentSubjectScore)
 admin.site.register(Stream)
+admin.site.register(TeacherSubject)
+admin.site.register(Permission)
+admin.site.register(Office)
+
+
+
+
 

@@ -1,0 +1,42 @@
+{% extends 'teachers/index.html' %}
+{% block content %}
+<div class="mt-2 ms-5" >
+    <div class="row justify-content-center">
+        <div class="col-9">
+            <div class="bg-light ms-5 p-5 rounded" style="margin-left: 200px;">
+            
+                <div class="col-7 ">
+                    <h4 class="text-center"> Assigned Subjects</h4>
+                    <hr>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table">
+                                <tr>
+                                    <th>Class Stream</th>
+                                    <th>Subject</th>
+                                </tr>
+                                {% for query in queryset %}
+
+                                <tr>
+                                    <td>{{query.classes_Stream}}</td>
+                                    <td> {{query.subject}}</td>
+                                </tr>
+                                {% endfor %}
+                                
+
+                                
+
+                            </table>
+                            
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+   
+</div>
+{% endblock %}

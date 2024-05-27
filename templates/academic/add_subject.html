@@ -1,0 +1,66 @@
+{% extends 'academic/index.html '%}
+{% load crispy_forms_tags %}
+{% block content %}
+<main class="my-2  container">
+  <div class="bg-light p-5 rounded">
+    <div class="row ms-5 justify-content-center">
+      <div class="col-5">
+        <h3 class="text-center">Add subject</h3>
+      <hr>
+      {% if messages %}
+      <ul class="messages">
+          {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }} list-group-item alert bg-info p-2 text-light" aria-current="true"{% endif %}>{{ message }}</li>
+          {% endfor %}
+      </ul>
+      {% endif %}
+        <form action="" method="POST">
+          {% csrf_token %}
+          <div class="form-control p-4">
+            {{form|crispy}}
+            <input class="btn btn-success w-100" type="submit" value="submit">
+
+          </div>
+        
+        </form>
+      </div>
+      <div class="col-6 ">
+        <h3 class="text-center">Enrolled Subject</h3>
+      <hr>  
+        <table class=" table">
+          <tr class="lead ">
+            <th class="">Name</th>
+            <th class="">Code</th>
+            <th class="">Update</th>
+            <th class="">Delete</th>
+
+          </tr>
+        {% for instance in query %}
+          <tr>
+            <td>{{instance.name}}</td>
+            <td>{{instance.code}}</td>
+            <td  >
+              <a href="{% url 'update_subject' instance.id %}" class="btn btn-success me-1"><i class="bi bi-arrow-up-circle btn btn-success"></i></a>
+            </td>
+
+            <td class=" my-1">
+              <a href="{% url 'delete_subject' instance.id %}" class=" me-1"><i class="bi bi-trash btn btn-danger"></i></a>
+              </td>
+
+
+          </tr>
+          {% endfor %}
+      
+        </table>
+        </div>
+      </div>
+
+  
+    </div>
+    </div>
+</main>
+{% endblock %}
+
+
+</body>
+</html>

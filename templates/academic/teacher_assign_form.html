@@ -1,0 +1,63 @@
+{% extends 'academic/index.html '%}
+{% load crispy_forms_tags %}
+{% block content %}
+<main class="my-2  container">
+  <div class="bg-light p-5 rounded">
+    <div class="row ms-5 justify-content-center">
+        <div class="col-5">
+        <h3 class="text-center">Assign subject</h3>
+        <hr>
+        <form action="" method="POST">
+        {% csrf_token %}
+        <div class="form-control p-4">
+            {{form|crispy}}
+            <input class="btn btn-success w-100" type="submit" value="submit">
+
+        </div>
+        
+        </form>
+    </div>
+    <div class="col-6 ">
+        <h3 class="text-center">Assigned Subject</h3>
+    <hr>  
+        <table class=" table">
+            <tr class="lead ">
+            <th class="">Subject</th>
+            <th class="">Class</th>
+            <th class="">Teacher</th>
+            <th class="">Update</th>
+            <th class="">Delete</th>
+
+
+            </tr>
+        {% for instance in queryset %}
+          <tr>
+            <td>{{instance.subject}}</td>
+            <td>{{instance.classes_Stream}}</td>
+            <td>{{instance.user}}</td>
+            <td  >
+              <a href="{% url 'update_subject_teacher' instance.id %}" class="btn btn-success me-1"><i class="bi bi-arrow-up-circle btn btn-success"></i></a>
+            </td>
+
+            <td class=" my-1">
+              <a href="{% url 'delete_subject_teacher' instance.id %}" class=" me-1"><i class="bi bi-trash btn btn-danger"></i></a>
+              </td>
+
+
+
+
+        </tr>
+        {% endfor %}
+        </table>
+        </div>
+      </div>
+
+  
+    </div>
+    </div>
+</main>
+{% endblock %}
+
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+{% extends 'teachers/index.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="mt-2 ms-5">
+    <div class="row justify-content-center">
+        <div class="col-9">
+            <div class="bg-light ms-5 p-5 rounded" style="margin-left: 200px;">
+            
+                <div class="col-5 ">
+                    
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                    {{form|crispy}}
+                        <button class="btn btn-primary mt-2" type="submit">Upload Scores</button>
+                    </form>
+                    
+                    {% if error %}
+                        <p style="color: rgb(0, 255, 255);">{{ error }}</p>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+   
+</div>
+{% endblock %}

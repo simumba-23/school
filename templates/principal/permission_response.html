@@ -1,0 +1,39 @@
+{% extends 'principal/index.html' %}
+{% block content %}
+<div class="mt-2 ms-5">
+    <div class="row justify-content-center">
+        <div class="col-9">
+<main >
+    <div class="bg-light p-5 rounded">
+        {% for query in permission_query %}
+        
+        <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;">
+            <a href="{% url 'permission_detail' query.id %}" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+                <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+                <span class="fs-5 fw-semibold">Leave Permission</span>
+            </a>
+            <div class="list-group list-group-flush border-bottom scrollarea">
+            <a href="#" class="list-group-item list-group-item-action active py-3 lh-tight" aria-current="true">
+                <div class="d-flex w-100 align-items-center justify-content-between">
+                <strong class="mb-1"> {{query.title}} </strong>
+                </div>
+                <div class="col-10 mb-1 small">
+                Hi, am {{query.user}} <br>
+                    {{query.description}}
+                    .</div>
+            </a>
+            
+            </div>
+        </div>
+
+   
+
+        {% endfor %}
+        
+    </div>
+</main>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}
