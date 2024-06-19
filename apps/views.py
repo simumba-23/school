@@ -77,7 +77,7 @@ def subject_view(request):
 
             
         except SubjectAlreadyExists as e:
-            messages.err or(request,str(e))
+            messages.error(request,str(e))
 
         return redirect('add_subject')
     # else:
@@ -187,9 +187,9 @@ def delete_subject(request,pk):
 def student_view(request):
     user=StudentRegistrationForm()
     student_profile=StudentCreateForm()
-    # student_detail=CustomUser.objects.filter(role='Student')
+    student_detail=CustomUser.objects.filter(role='Student')
  
-    queryset= Student.objects.all()
+    # queryset= Student.objects.all()
     if request.method == "POST":
         student_profile=StudentCreateForm(request.POST)
         user=StudentRegistrationForm(request.POST)
@@ -205,8 +205,8 @@ def student_view(request):
     context={
         'user':user,
         'student_profile':student_profile,
-        'queryset':queryset,
-        # 'student_detail':student_detail
+        # 'queryset':queryset,
+        'student_detail':student_detail
 
     }
 
@@ -224,10 +224,10 @@ def student_result(request):
     return render(request,'student/student_result.html',context)
 def  update_staff(request,pk):
     get_staff = get_object_or_404(CustomUser,id=pk)
-    form = UserRegisterForm(instance=get_staff)
+    form = StaffUpdateForm(instance=get_staff)
 
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST,instance=get_staff)
+        form = StaffUpdateForm(request.POST,instance=get_staff)
         if form.is_valid():
             form.save()
             messages.success(request,'Staff is updated succesfuly')
@@ -271,18 +271,37 @@ def delete_subject_teacher(request,pk):
         delete_item.delete()
         return redirect('subject_teacher')
     return render(request,'academic/delete_student.html')
+from django.db.models import Count
 def staff_student(request):
-    queryset= Student.objects.count()
-    # query=Student.objects.filter(sex='Male').count()
-    # querys=Student.objects.filter(sex='Female').count()
-    staff_q1=CustomUser.objects.count()
-    staff_q2=CustomUser.objects.filter(sex='Male').count()
-    staff_q3=CustomUser.objects.filter(sex='Female').count()
-    context={
-        'queryset': queryset,
-        'staff_q1':staff_q1,
-        'staff_q2':staff_q2,
-        'staff_q3':staff_q3,
+    student_count = CustomUser.objects.filter(role='Student').count()
+    staff_counts = CustomUser.objects.exclude(role='Student',is_superuser=True).count()
+    male_staff_counts = CustomUser.objects.filter(sex='Male').exclude(role='Student',is_superuser=True).count()
+    female_staff_counts = CustomUser.objects.filter(sex='Female').exclude(role='Student',is_superuser=True).count()
+
+
+    male_student = CustomUser.objects.filter(role='Student',sex='Male').count()
+    female_student = CustomUser.objects.filter(role='Student',sex='Female').count()
+    student_class_count = Student.objects.filter(user__role='Student').values('classes__name', 'user__sex').annotate(total=Count('id'))
+    students_count = Student.objects.filter(user__role='Student').values('classes__name', 'user__sex').annotate(total=Count('id'))
+
+    # Sorting data into forms
+    forms = {'Form 1': [], 'Form 2': [], 'Form 3': [], 'Form 4': []}
+    for student in students_count:
+        class_name = student['classes__name']
+        for form in forms:
+            if form in class_name:
+                forms[form].append(student)
+                break
+
+
+    context = {
+        'student_count':student_count,
+        'staff_counts':staff_counts,
+        'female_staff_counts':female_staff_counts,
+        'male_staff_counts':male_staff_counts,
+        'male_student':male_student,
+        'female_student':female_student,
+        'forms':forms,
     }
     return render(request,'principal/registration_summary.html',context)
 def academic_dash(request):
@@ -319,6 +338,8 @@ def teacher_views(request):
     
     return render(request,'teachers/teach.html',context)
 
+    return render(request,'teachers/score_upload_form.html')
+
 def upload_score(request):
     if request.method == 'POST':
         form = ScoreUploadForm(request.POST, request.FILES)
@@ -332,13 +353,15 @@ def upload_score(request):
             # Process and save data to database
             for index, row in df.iterrows():
                 # Extract data from DataFrame
-                student= row['student']
-                subject_name = row['subject']
-                marks = row['marks']
-                rank = row['grade']
+                student= row['ID']
+                first_name = row['First Name']
+                last_name = row['Last Name']
+                subject_name = row['Subject']
+                marks = row['Marks']
+                rank = row['Grade']
 
                 # Get or create Student instance
-                student, created = CustomUser.objects.get_or_create(role='Student',student=student)
+                student, created = CustomUser.objects.get_or_create(role='Student',first_name=first_name,last_name=last_name)
 
                 # Get or create Subject instance
                 subject, created = Subject.objects.get_or_create(name=subject_name)
@@ -351,11 +374,52 @@ def upload_score(request):
                     marks=marks,
                     grade=rank,
                 )
-
+        
             return render(request, 'teachers/success.html')
+        
     else:
         form = ScoreUploadForm()
     return render(request, 'teachers/score_upload_form.html', {'form': form})
+
+def download_student_info(request):
+    pass
+import openpyxl
+from django.http import HttpResponse
+from .models import Student, Class
+
+def export_students_to_excel(request, form_name):
+    # Create an Excel workbook and a sheet
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = f'Students {form_name}'
+
+    # Define the headers
+    headers = ['ID', 'First Name','Last Name', 'Class', 'Subject','Marks','Grade']
+    ws.append(headers)
+
+    # Query the students by the specified form
+    students = Student.objects.filter(classes__name=form_name).select_related('user', 'classes')
+
+    # Add data to the sheet
+    for student in students:
+        row = [
+            student.user.id,
+            student.user.first_name,  # Adjust based on what you want to display for the user
+            student.user.last_name,
+            student.classes.name,
+        ]
+        ws.append(row)
+
+    # Create a response object and set the content type and headers
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = f'attachment; filename=students_{form_name}.xlsx'
+    
+    # Save the workbook to the response
+    wb.save(response)
+
+    return response
+
+
 def leave_permission(request):
     permission_status = Permission.objects.filter(user=request.user)
     form = PermissionForm()
@@ -425,17 +489,17 @@ from reportlab.lib.styles import ParagraphStyle
 def generate_report(request):
     # Retrieve the authenticated student
     student = request.user
-
+    student_get = get_object_or_404(Student, user=student)
+    
     # Retrieve all subjects
     subjects = Subject.objects.all()
-    subject_names = {subject.id: subject.name for subject in subjects}
-
+    
     # Retrieve scores for the student
     scores = Score.objects.filter(student=student)
-
+    
     # Calculate the total marks for the student
     total_marks = sum(int(score.marks) for score in scores)
-
+    
     # Calculate the average score for each subject
     subject_averages = {}
     for subject in subjects:
@@ -444,51 +508,73 @@ def generate_report(request):
             subject_averages[subject.name] = sum(int(score.marks) for score in subject_scores) / subject_scores.count()
         else:
             subject_averages[subject.name] = 0
-
+    
     # Calculate the rank of the student among all students based on total marks
     all_students = CustomUser.objects.filter(role='Student')
     ranked_students = all_students.annotate(total_marks=Sum('score__marks')).order_by('-total_marks').values_list('id', flat=True)
     rank = list(ranked_students).index(student.id) + 1
-
+    
+    # Fetch student habits
+    student_habits = StudentHabit.objects.filter(student=student_get)
+    
     # Create PDF document
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="{student.first_name}_report.pdf"'
-
+    
     doc = SimpleDocTemplate(response, pagesize=letter)
     elements = []
-
-    # Add rank information
-    rank_paragraph = Paragraph(f'Position: {rank}', style=ParagraphStyle(name='RankStyle', alignment=1))
-    elements.append(rank_paragraph)
-
-    name_paragraph = Paragraph(f'Student Name: {student.first_name} {student.last_name}', style=ParagraphStyle(name='NameStyle', alignment=1))
-    elements.append(name_paragraph)
-
-    # Prepare data for the table
-    data = [['Subject', 'Marks', 'Grade', 'Average']]
+    
+    # Add student information
+    elements.append(Paragraph(f'Student Name: {student.first_name} {student.last_name}', style=ParagraphStyle(name='NameStyle', alignment=1)))
+    elements.append(Paragraph(f'Position: {rank}', style=ParagraphStyle(name='RankStyle', alignment=1)))
+    
+    # Prepare data for the subjects table
+    subject_data = [['Subject', 'Marks', 'Grade', 'Average']]
     for subject in subjects:
         score = scores.filter(subject=subject).first()
         if score:
-            data.append([subject.name, score.marks, score.grade, subject_averages[subject.name]])
+            subject_data.append([subject.name, score.marks, score.grade, f'{subject_averages[subject.name]:.2f}'])
         else:
-            data.append([subject.name, '-', '-', subject_averages[subject.name]])
-
-    # Create table
-    table = Table(data)
-    table.setStyle(TableStyle([('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-                                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-                                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-                                ('GRID', (0, 0), (-1, -1), 1, colors.black)]))
-
-    # Add table to elements
-    elements.append(table)
-
+            subject_data.append([subject.name, '-', '-', f'{subject_averages[subject.name]:.2f}'])
+    
+    # Create subjects table
+    subject_table = Table(subject_data)
+    subject_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+    ]))
+    
+    # Add subjects table to elements
+    elements.append(Paragraph('Subjects and Scores:', style=ParagraphStyle(name='TableHeaderStyle', alignment=0)))
+    elements.append(subject_table)
+    
+    # Prepare data for the habits table
+    habits_data = [['Habit', 'Grade']]
+    for habit in student_habits:
+        habits_data.append([habit.habits.name, habit.grade])
+    
+    # Create habits table
+    habits_table = Table(habits_data)
+    habits_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black),
+    ]))
+    
+    # Add habits table to elements
+    elements.append(Paragraph('Student Habits:', style=ParagraphStyle(name='TableHeaderStyle', alignment=0)))
+    elements.append(habits_table)
+    
     # Build PDF document
     doc.build(elements)
     return response
-
 from django.db.models import Q
 def find_teacher(request):
     query = request.GET.get('query','')
@@ -506,3 +592,28 @@ def find_teacher(request):
         'results': results,
     }
     return render(request,'student/find_teacher.html',context)
+
+def add_habit_to_student(request,student_id):
+    student = get_object_or_404(Student,id=student_id)
+    form = StudentHabitForm()
+    if request.method =='POST':
+        form = StudentHabitForm(request.POST)
+        if form.is_valid():
+            habit = form.cleaned_data['habits']
+            grade = form.cleaned_data['grade']
+            student_habit,created = StudentHabit.objects.get_or_create(student=student,habits=habit,teacher=request.user)
+            student_habit.grade=grade
+            student_habit.save()
+            return redirect('register_student')
+        else:
+            form = StudentHabitForm()
+    return render(request,'academic/add_student_habit.html',{'form':form,'student':student})
+        
+
+        
+            
+    # views.py
+import csv
+from django.http import HttpResponse
+from .models import Student
+

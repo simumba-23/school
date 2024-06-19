@@ -27,20 +27,24 @@
       <div class="col-6 ">
         <h3 class="text-center">Enrolled Subject</h3>
       <hr>  
-        <table class=" table">
-          <tr class="lead ">
-            <th class="">Name</th>
-            <th class="">Code</th>
-            <th class="">Update</th>
-            <th class="">Delete</th>
-
-          </tr>
-        {% for instance in query %}
+        <table class="display" width="100%" id="myTable">
+          <thead>
+            <tr class="lead ">
+              <th class="">Name</th>
+              <th class="">Code</th>
+              <th class="">Update</th>
+              <th class="">Delete</th>
+  
+            </tr>
+          
+          </thead>
+         {% for instance in query %}
+         <tbody>
           <tr>
             <td>{{instance.name}}</td>
             <td>{{instance.code}}</td>
             <td  >
-              <a href="{% url 'update_subject' instance.id %}" class="btn btn-success me-1"><i class="bi bi-arrow-up-circle btn btn-success"></i></a>
+              <a href="{% url 'update_subject' instance.id %}" class=" me-1"><i class="bi bi-arrow-up-circle btn btn-success"></i></a>
             </td>
 
             <td class=" my-1">
@@ -49,6 +53,8 @@
 
 
           </tr>
+        
+         </tbody>
           {% endfor %}
       
         </table>

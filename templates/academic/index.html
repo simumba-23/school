@@ -48,9 +48,24 @@
   margin-left: 240px; /* Adjust this value based on the width of your sidebar */
 }
     </style>
+<link rel="stylesheet" href="{% static 'bootstrap/css/datatables.min.css' %}">
+
 <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
     <link rel="stylesheet" href="{% static 'styling/style.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
+    <!-- jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap 5 JS (optional) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables Bootstrap 5 JS -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
+
     <!-- Custom styles for this template -->
 </head>
 <body>
@@ -60,7 +75,7 @@
             <main role="main"  >
                 <nav class="navbar navbar-expand-md navbar-dark  bg-success p-3 w-100">
                     <div class="">
-                        <div class="container-fliud">
+                        <div class="container-fliud justify-content-center">
                             <a class="navbar-brand px-3 navbar-sticky" href="#">SARPMS</a>
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -117,5 +132,23 @@
 
 
     {% endblock %}
+    <script>
+    $(document).ready(function() {
+        $('#myTable').DataTable({
+            // Enable Bootstrap 5 styling
+            "dom": '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+                '<"row"<"col-sm-12"tr>>' +
+                '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            "pagingType": "simple_numbers",
+            "language": {
+                "paginate": {
+                    "previous": "&laquo;",
+                    "next": "&raquo;"
+                }
+            }
+        });
+    });
+    </script>
+
 </body>
 </html>

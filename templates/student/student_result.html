@@ -7,9 +7,10 @@
     <div class="row   justify-content-center p-5">
         
         <div class="col-6  w-74">
-        <table class="table">
+        <table class="display" id="myTable" width="100%">
             <h4 class="text-center"> Exams Result</h4>
         <hr>
+        <thead>
             <tr>
                 <th>Student</th>
                 <th>Subject</th>
@@ -18,19 +19,26 @@
                 <th>Grade</th>
             
             </tr>
+        
+        </thead>
             {% for instance in  student_scores %}
-            <tr>
-                <td>{{instance.student}}</t>
-
-                <td>{{instance.subject}}</td>
-                <td>{{instance.marks}}</td>
-                <td>{{instance.grade}}</td>
+            <tbody>
+                <tr>
+                    <td>{{instance.student}}</t>
+    
+                    <td>{{instance.subject}}</td>
+                    <td>{{instance.marks}}</td>
+                    <td>{{instance.grade}}</td>
+                
+                </tr>
+    
+            </tbody>
             
-            </tr>
-        <button><a href="{% url 'generate_report' %}">GET REPORT</a></button>
-
             {% endfor %}
+
         </table>
+    <a href="{% url 'generate_report' %}" class="btn btn-primary">GET REPORT</a>
+
         </div>
     
     </div>

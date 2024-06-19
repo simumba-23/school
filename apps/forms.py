@@ -157,8 +157,27 @@ class ModifyRoleForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['role']
+class StaffUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields=['first_name','last_name','username','email','middle_Name','office','role','sex','date_Of_Birth']
+        widgets = {
+                'date_Of_Birth':forms.DateTimeInput(
+                    attrs = {
+                        'class': 'form-control',
+                        'style':'max-width: 400px;',
+                        'type':'date'
+
+                    }
+                ),
+                
+        }
+        
     
 class PermissionForm(forms.ModelForm):
     class Meta:
         model = Permission
         fields = ['title','description','status']
+class StudentHabitForm(forms.Form):
+    habits = forms.ModelChoiceField(queryset=Habit.objects.all())
+    grade = forms.CharField(max_length=2)

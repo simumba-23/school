@@ -11,6 +11,8 @@ admin.site.register(Stream)
 admin.site.register(TeacherSubject)
 admin.site.register(Permission)
 admin.site.register(Office)
+admin.site.register(Habit)
+admin.site.register(StudentHabit)
 
 
 

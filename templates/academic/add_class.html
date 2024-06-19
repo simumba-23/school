@@ -29,27 +29,33 @@
         <h3 class="text-center">Registered Class</h3>
         <hr>
         
-        <table class="table">
-          <tr clss="">
-            <td>Name</td>
-            <td>Update</td>
-            <td>Delete</td>
-
-
-          </tr>
+        <table class="display" width="100%" id="myTable">
+          <thead>
+            <tr clss="">
+              <td>Name</td>
+              <td>Update</td>
+              <td>Delete</td>
+  
+  
+            </tr>
+            
+          </thead>
           {% for query in queries %}
-          <tr>
-            <td class="ps-5 ">{{query.name}}</td> 
-            <td  >
-              <a href="{% url 'update_class' query.id %}" class="btn btn-success me-1"><i class="bi bi-arrow-up-circle btn btn-success"></i></a>
-            </td>
-
-            <td class=" my-1">
-              <a href="{% url 'delete_class' query.id %}" class=" me-1"><i class="bi bi-trash btn btn-danger"></i></a>
+          <tbody>
+            <tr>
+              <td class="ps-5 ">{{query.name}}</td> 
+              <td  >
+                <a href="{% url 'update_class' query.id %}" class=" me-1"><i class="bi bi-arrow-up-circle btn btn-success"></i></a>
               </td>
-
-          </tr>
-
+  
+              <td class=" my-1">
+                <a href="{% url 'delete_class' query.id %}" class=" me-1"><i class="bi bi-trash btn btn-danger"></i></a>
+                </td>
+  
+            </tr>
+  
+          
+          </tbody>
           {% endfor %}
         </table>
       </div>

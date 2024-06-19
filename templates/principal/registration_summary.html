@@ -2,43 +2,59 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <main class="row">
-    <div class="bg-light mt-2  rounded">
-    <div class="row   justify-content-center p-5">
-        <div class="col-3 ms-5">
-    
-            <table class="table">
-                <h6 class="text-center fw-light">STUDENT</h6>
-            <tr>
-                <th>Total</th>
-                <th>Male</th>
-                <th>Female</th>
-                </tr>
-            <tr>
-                <td>{{queryset}}</td>
-                <td>{{query}}</td>
-                <td>{{querys}}</td>
-                </tr>
-            </table>
-        </div>
-        <div class="col-5">
-        
+    <div class="bg-light mt-2 rounded">
+        <div class="row justify-content-center p-5">
+            <div class="col-3 ms-5">
+                <table class="table">
+                    <h6 class="text-center fw-light">STUDENT</h6>
+                    <tr>
+                        <th>Total</th>
+                        <th>Male</th>
+                        <th>Female</th>
+                    </tr>
+                    <tr>
+                        <td>{{student_count}}</td>
+                        <td>{{male_student}}</td>
+                        <td>{{female_student}}</td>
+                    </tr>
+                </table>
+                {% for form_level, students in forms.items %}
+                        <div class="card mb-4">
+                            <div class="card-header bg-primary text-white">
+                                <h2 class="h4">{{ form_level }} Students</h2>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                {% for student in students %}
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <!-- <div class="col-md-4"> {{ student.classes__name }}</div> -->
+                                            <div class="col-md-4">{{ student.user__sex }}</div>
+                                            <div class="col-md-4">{{ student.total }}</div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
 
-            <table class="table">
-                <h6 class="text-center fw-light">STAFF</h6>
-            <tr>
-                <th>Total</th>
-                <th>Male</th>
-                <th>Female</th>
-                </tr>
-            <tr>
-                <td>{{staff_q1}}</td>
-                <td>{{staff_q2}}</td>
-                <td>{{staff_q3}}</td>
-                </tr>
-            </table>
+            </div>
+            <div class="col-5">
+                <table class="table">
+                    <h6 class="text-center fw-light">STAFF</h6>
+                    <tr>
+                        <th>Total</th>
+                        <th>Male</th>
+                        <th>Female</th>
+                    </tr>
+                    <tr>
+                        <td>{{staff_counts}}</td>
+                        <td>{{male_staff_counts}}</td>
+                        <td>{{female_staff_counts}}</td>
+                    </tr>
+                </table>
+                
+                </div>
         </div>
-    
-        </div>
-       </div>
+    </div>
 </main>
 {% endblock %}

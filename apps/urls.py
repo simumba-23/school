@@ -37,6 +37,13 @@ urlpatterns=[
     path('delete_staff/<str:pk>/',delete_staff,name='delete_staff'),
     path('report/', generate_report, name='generate_report'),
     path('find_teacher/', find_teacher, name='find_teacher'),
+    path('find_teacher/', find_teacher, name='find_teacher'),
+    path('student/<int:student_id>/add_habit/',add_habit_to_student,name='add_habit_to_student'),
+    path('download_student_info/', download_student_info, name='download_student_info'),
+    path('export-students/<str:form_name>/', export_students_to_excel, name='export_students_to_excel'),
+]
+
+
 
 
 
@@ -46,4 +53,4 @@ urlpatterns=[
 
 
 
-]
+

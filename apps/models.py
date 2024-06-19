@@ -6,7 +6,7 @@ class Office(models.Model):
     name = models.CharField(max_length=50)
     office_number = models.IntegerField()
     def __str__(self):
-        return self.name
+        return f'{self.name},{self.office_number}'
 
 
 class CustomUser(AbstractUser):
@@ -58,7 +58,23 @@ class Student(models.Model):
 
     
     def __str__(self):
-        return self.middle_name
+        return f'{self.classes}'
+
+class Habit(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+class StudentHabit(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE,related_name='habits')
+    teacher = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    habits = models.ForeignKey(Habit, on_delete=models.CASCADE)
+    grade = models.CharField(max_length=100)
+    def __str__(self):
+        return f'{self.student.user.username}-{self.habits.name}-{self.grade}'
+
+    
 
 class Subject(models.Model):
     name=models.CharField(max_length=100 )

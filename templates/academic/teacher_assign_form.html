@@ -20,33 +20,39 @@
     <div class="col-6 ">
         <h3 class="text-center">Assigned Subject</h3>
     <hr>  
-        <table class=" table">
+        <table class=" display" id="myTable" width="100%">
+          <thead>
             <tr class="lead ">
-            <th class="">Subject</th>
-            <th class="">Class</th>
-            <th class="">Teacher</th>
-            <th class="">Update</th>
-            <th class="">Delete</th>
-
-
-            </tr>
+              <th class="">Subject</th>
+              <th class="">Class</th>
+              <th class="">Teacher</th>
+              <th class="">Update</th>
+              <th class="">Delete</th>
+  
+  
+              </tr>
+          </thead>
+           
         {% for instance in queryset %}
-          <tr>
-            <td>{{instance.subject}}</td>
-            <td>{{instance.classes_Stream}}</td>
-            <td>{{instance.user}}</td>
-            <td  >
-              <a href="{% url 'update_subject_teacher' instance.id %}" class="btn btn-success me-1"><i class="bi bi-arrow-up-circle btn btn-success"></i></a>
+        <tbody>
+
+        </tbody>
+        <tr>
+          <td>{{instance.subject}}</td>
+          <td>{{instance.classes_Stream}}</td>
+          <td>{{instance.user}}</td>
+          <td  >
+            <a href="{% url 'update_subject_teacher' instance.id %}" class="btn btn-success me-1"><i class="bi bi-arrow-up-circle btn btn-success"></i></a>
+          </td>
+
+          <td class=" my-1">
+            <a href="{% url 'delete_subject_teacher' instance.id %}" class=" me-1"><i class="bi bi-trash btn btn-danger"></i></a>
             </td>
 
-            <td class=" my-1">
-              <a href="{% url 'delete_subject_teacher' instance.id %}" class=" me-1"><i class="bi bi-trash btn btn-danger"></i></a>
-              </td>
 
 
 
-
-        </tr>
+      </tr>
         {% endfor %}
         </table>
         </div>
