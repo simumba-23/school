@@ -72,6 +72,7 @@ Frontend: Django Templates + Bootstrap
 
 Authentication: Role-based access (Principal, Academic Master, Teacher, Student or Parent)
 # Screenshots
+
 <img width="1357" height="633" alt="School login" src="https://github.com/user-attachments/assets/59a2e7be-fc7c-43e1-b9aa-386b481a6f94" />
 <img width="1328" height="630" alt="school admin side" src="https://github.com/user-attachments/assets/208a497c-09d9-4eb4-b7a7-db192db6453c" />
 <img width="1355" height="645" alt="student registration" src="https://github.com/user-attachments/assets/e857a17c-9a8c-4d8a-acc3-424e1c2ba6d3" />
@@ -80,6 +81,7 @@ Authentication: Role-based access (Principal, Academic Master, Teacher, Student 
 <img width="1077" height="496" alt="School results upload" src="https://github.com/user-attachments/assets/a0af5f2e-8c7e-4fb7-9344-7ae519ae5747" />
 <img width="1098" height="540" alt="assign subject" src="https://github.com/user-attachments/assets/22d02197-b414-4e33-b622-3de804297a94" />
 <img width="1111" height="544" alt="school class" src="https://github.com/user-attachments/assets/1bf4ef4e-dcc2-4f38-a344-2e336855fc0f" />
+
 ⚡ Installation
 # Clone repo
 git clone git@github.com:simumba-23/school.git
